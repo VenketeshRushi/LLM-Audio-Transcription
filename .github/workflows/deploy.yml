@@ -1,0 +1,50 @@
+name: Build and Deploy
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build-and-push:
+    runs-on: ubuntu-latest
+    steps:
+      # Checkout the repository
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      # Log in to Docker Hub using stored secrets
+      - name: Log in to Docker Hub
+        uses: docker/login-action@v2
+        with:
+          username: ${{ secrets.DOCKER_HUB_USERNAME }}
+          password: ${{ secrets.DOCKER_HUB_PASSWORD }}
+
+      # Build and push the backend Docker image
+      - name: Build and push backend image
+        uses: docker/build-push-action@v3
+        with:
+          context: ./backend
+          file: Dockerfile
+          push: true
+          tags: ${{ secrets.DOCKER_HUB_USERNAME }}/backend:latest
+
+      # Build and push the frontend Docker image
+      - name: Build and push frontend image
+        uses: docker/build-push-action@v3
+        with:
+          context: ./frontend
+          file: Dockerfile
+          push: true
+          tags: ${{ secrets.DOCKER_HUB_USERNAME }}/frontend:latest
+
+  deploy:
+    runs-on: ubuntu-latest
+    needs: build-and-push
+    steps:
+      # Trigger deployment via Render webhook (or similar)
+      - name: Trigger Render Deployment
+        run: |
+          curl -X POST -H 'Content-Type: application/json' \
+          -d '{"clearCache": true}' \
+          ${{ secrets.RENDER_DEPLOY_WEBHOOK_URL }}
