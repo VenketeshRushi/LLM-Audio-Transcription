@@ -1,0 +1,64 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
+  line-height: 1.5;
+  font-weight: 400;
+}
+
+body {
+  @apply bg-gradient-to-br from-blue-50 to-indigo-50 min-h-screen;
+}
+
+.file-input-wrapper {
+  @apply relative cursor-pointer bg-white rounded-lg border-2 border-dashed border-blue-300 hover:border-blue-400 transition-colors p-6 w-full;
+}
+
+.file-input-wrapper input[type="file"] {
+  @apply cursor-pointer opacity-0 absolute inset-0 w-full h-full;
+}
+
+.file-input-wrapper .placeholder {
+  @apply text-center text-gray-500;
+}
+
+input[type="email"] {
+  @apply w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition-all;
+}
+
+.upload-button {
+  @apply bg-gradient-to-r from-blue-500 to-indigo-500 text-white font-medium px-6 py-2 rounded-lg
+         hover:from-blue-600 hover:to-indigo-600 transform hover:-translate-y-0.5 transition-all
+         focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 shadow-md
+         disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:transform-none;
+}
+
+.status-message {
+  @apply mt-4 px-4 py-2 rounded-lg text-center;
+}
+
+.status-message.loading {
+  @apply bg-blue-100 text-blue-700;
+}
+
+.status-message.error {
+  @apply bg-red-100 text-red-700;
+}
+
+.status-message.success {
+  @apply bg-green-100 text-green-700;
+}
+
+.transcript-container {
+  @apply mt-6 bg-white rounded-xl shadow-lg p-6 w-full max-w-2xl;
+}
+
+.transcript-container h3 {
+  @apply text-lg font-semibold text-gray-800 mb-3 pb-2 border-b border-gray-200;
+}
+
+.transcript-container p {
+  @apply text-gray-600 leading-relaxed whitespace-pre-wrap;
+}
